@@ -181,7 +181,9 @@ MediaSession.prototype = extend(MediaSession.prototype, {
         this.streams.forEach(function (stream) {
             self.onRemoveStream({stream: stream});
         });
-        this.pc.close();
+        if (this.pc.signalingState !== 'closed') {
+            this.pc.close();
+        }
         BaseSession.prototype.end.call(this, reason, silent);
     },
 
@@ -604,7 +606,7 @@ MediaSession.prototype = extend(MediaSession.prototype, {
             var ssrcs = desc.sources || [];
             var groups = desc.sourceGroups || [];
 
-            changes.contents.forEach(function (newContent) {
+            changes && changes.contents && changes.contents.forEach(function (newContent) {
                 if (content.name !== newContent.name) {
                     return;
                 }
@@ -679,7 +681,7 @@ MediaSession.prototype = extend(MediaSession.prototype, {
             var ssrcs = desc.sources || [];
             var groups = desc.sourceGroups || [];
 
-            changes.contents.forEach(function (newContent) {
+            changes && changes.contents && changes.contents.forEach(function (newContent) {
                 if (content.name !== newContent.name) {
                     return;
                 }

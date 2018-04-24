@@ -9,7 +9,7 @@
   "dependencies": {
     "extend-object": "^1.0.0",
     "jingle-session": "^2.0.0",
-    "rtcpeerconnection": "github:konradkierus/RTCPeerConnection"
+    "rtcpeerconnection": "github:softwarehutpl/RTCPeerConnection"
   },
   "devDependencies": {
     "browserify": "^5.11.1",

@@ -633,16 +633,29 @@ MediaSession.prototype = extend(MediaSession.prototype, {
         var self = this;
         this._log('info', 'Updating stream source');
 
-        self.pc.handleAnswer({
-            type: 'answer',
-            jingle: changes
-        }, function (err) {
-            if (err) {
-                self._log('error', 'Could not process answer for source update', err);
-                return cb(err);
-            }
-            cb();
-        });
+        if (this.pc.isInitiator) {
+            self.pc.handleAnswer({
+                type: 'answer',
+                jingle: changes
+            }, function (err) {
+                if (err) {
+                    self._log('error', 'Could not process answer for source update (handleAnswer)', err);
+                    return cb(err);
+                }
+                cb();
+            });
+        } else {
+            this.pc.handleOffer({
+                type: 'offer',
+                jingle: changes
+            }, function (err) {
+                if (err) {
+                    self._log('error', 'Could not process offer for source update (handleOffer)', err);
+                    return cb(err);
+                }
+                cb();
+            });
+        }
     },
 
     // ----------------------------------------------------------------

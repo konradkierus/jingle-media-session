@@ -634,45 +634,23 @@ MediaSession.prototype = extend(MediaSession.prototype, {
         this._log('info', 'Updating stream source');
 
         if (changes.reinviteInitiator) {
-            if (this.pc.isInitiator) {
-                this.pc.handleAnswer({
-                    type: 'answer',
-                    jingle: changes
-                }, function (err) {
+            this.pc.handleOffer({
+                type: 'offer',
+                jingle: changes
+            }, function (err) {
+                if (err) {
+                    self._log('error', 'Error handle offer, responder (reinviteInitiator)', err);
+                    return cb(err);
+                }
+                self.pc.answer(self.constraints, function (err, answer) {
                     if (err) {
-                        self._log('error', 'Error handle answer, initiator (reinviteInitiator)', err);
+                        self._log('error', 'Error creating answer, responder (reinviteInitiator)', err);
                         return cb(err);
                     }
-                   self.pc.offer(self.constraints, function (err, offer) {
-                      if (err) {
-                          self._log('error', 'Error creating offer, initiator (reinviteInitiator)', err);
-                          return cb({
-                              condition: 'general-error'
-                          });
-                      }
-                      cb();
-                      self.send('source-accept', offer.jingle);
-                  });
+                    cb();
+                    self.send('source-accept', answer.jingle);
                 });
-            } else {
-                this.pc.handleOffer({
-                    type: 'offer',
-                    jingle: changes
-                }, function (err) {
-                    if (err) {
-                        self._log('error', 'Error handle offer, responder (reinviteInitiator)', err);
-                        return cb(err);
-                    }
-                    self.pc.answer(self.constraints, function (err, answer) {
-                        if (err) {
-                            self._log('error', 'Error creating answer, responder (reinviteInitiator)', err);
-                            return cb(err);
-                        }
-                        cb();
-                        self.send('source-accept', answer.jingle);
-                    });
-                });
-            }
+            });
         } else {
           if (this.pc.isInitiator) {
               self.pc.handleAnswer({

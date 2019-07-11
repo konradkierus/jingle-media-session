@@ -8,8 +8,8 @@
   ],
   "dependencies": {
     "extend-object": "^1.0.0",
-    "jingle-session": "github:softwarehutpl/jingle-session",
-    "rtcpeerconnection": "github:softwarehutpl/RTCPeerConnection"
+    "jingle-session": "github:softwarehutpl/jingle-session#07f21ff811afaa13f9c7f782b68f0d2c4cbc4e66",
+    "rtcpeerconnection": "github:softwarehutpl/RTCPeerConnection#18140b6d06ced5ce7bff4ea9759f42fe68b0d7f0"
   },
   "devDependencies": {
     "brfs": "^1.6.1",

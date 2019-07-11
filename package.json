@@ -1,6 +1,6 @@
 {
   "name": "jingle-media-session",
-  "version": "2.2.0",
+  "version": "2.3.1",
   "author": "Lance Stout <lance@andyet.net>",
   "bugs": "https://github.com/otalk/jingle-media-session/issues",
   "contributors": [
@@ -8,17 +8,31 @@
   ],
   "dependencies": {
     "extend-object": "^1.0.0",
-    "jingle-session": "github:softwarehutpl/jingle-session#0cd4526879354f7b468e03c142e6e6fed1a7f133",
-    "rtcpeerconnection": "github:softwarehutpl/RTCPeerConnection#a48c8e97487416438922323d19fde20f8208b544"
+    "jingle-session": "github:softwarehutpl/jingle-session",
+    "rtcpeerconnection": "github:softwarehutpl/RTCPeerConnection"
   },
   "devDependencies": {
+    "brfs": "^1.6.1",
     "browserify": "^5.11.1",
+    "chai": "^4.1.2",
     "covert": "^1.0.0",
     "jshint": "^2.5.5",
+    "karma": "^2.0.0",
+    "karma-browserify": "^5.2.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-safari-launcher": "^1.0.0",
+    "mocha": "^5.1.0",
     "nsp": "^0.2.6",
+    "nyc": "^11.6.0",
     "precommit-hook": "^1.0.7",
     "tap-spec": "^0.2.1",
     "tape": "^2.14.0",
+    "travis-multirunner": "^4.4.1",
     "uglify-js": "^2.4.15"
   },
   "homepage": "https://github.com/otalk/jingle-media-session",
@@ -34,7 +48,9 @@
     "url": "https://github.com/otalk/jingle-media-session.git"
   },
   "scripts": {
+    "lint": "jshint index.js",
     "audit": "make audit",
-    "build": "make build"
+    "build": "make build",
+    "test": "karma start test/karma.conf.js"
   }
 }

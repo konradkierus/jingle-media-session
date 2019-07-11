@@ -15,6 +15,10 @@ function filterContentSources(content, stream) {
 
     if (content.application.sources) {
         content.application.sources = content.application.sources.filter(function (source) {
+            // if there's no msid, ignore it
+            if (source.parameters.length < 2) {
+              return false;
+            }
             return stream.id === source.parameters[1].value.split(' ')[0];
         });
     }
@@ -58,6 +62,8 @@ function MediaSession(opts) {
     this.pc.on('addStream', this.onAddStream.bind(this));
     this.pc.on('removeStream', this.onRemoveStream.bind(this));
     this.pc.on('addChannel', this.onAddChannel.bind(this));
+    this.pc.on('addTrack', this.onAddTrack.bind(this));
+    this.pc.on('removeTrack', this.onRemoveTrack.bind(this));
 
     if (opts.stream) {
         this.addStream(opts.stream);
@@ -433,6 +439,20 @@ MediaSession.prototype = extend(MediaSession.prototype, {
     onRemoveStream: function (event) {
         this._log('info', 'Stream removed');
         this.emit('peerStreamRemoved', this, event.stream);
+    },
+
+    // ----------------------------------------------------------------
+    // Track event handlers
+    // ----------------------------------------------------------------
+
+    onAddTrack: function (event) {
+        this._log('info', 'Track added');
+        this.emit('peerTrackAdded', this, event.track, event.streams[0]);
+    },
+
+    onRemoveTrack: function (event) {
+        this._log('info', 'Track removed');
+        this.emit('peerTrackRemoved', this, event.track, event.stream);
     },
 
     // ----------------------------------------------------------------

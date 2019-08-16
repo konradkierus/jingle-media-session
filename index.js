@@ -140,6 +140,8 @@ MediaSession.prototype = extend(MediaSession.prototype, {
 
             offer.jingle.contents.forEach(filterUnusedLabels);
 
+            offer.jingle.cid = self.cid;
+
             self.send('session-initiate', offer.jingle);
 
             next();

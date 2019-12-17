@@ -51,10 +51,15 @@ function filterUnusedLabels(content) {
 function MediaSession(opts) {
     BaseSession.call(this, opts);
 
-    this.pc = new RTCPeerConnection({
+    var rtcConfiguration = {
         iceServers: opts.iceServers || [],
         useJingle: true
-    }, opts.constraints || {});
+    };
+    if (opts.bundlePolicy) {
+        rtcConfiguration.bundlePolicy = opts.bundlePolicy;
+    }
+
+    this.pc = new RTCPeerConnection(rtcConfiguration, opts.constraints || {});
 
     this.pc.on('ice', this.onIceCandidate.bind(this, opts));
     this.pc.on('endOfCandidates', this.onIceEndOfCandidates.bind(this, opts));
